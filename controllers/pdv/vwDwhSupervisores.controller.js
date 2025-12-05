@@ -1,0 +1,24 @@
+const initSupervisorModel = require('../../models/pdv/views/vwDwhSupervisores.view');
+const { sequelizeInit } = require('../../configuration/db');
+
+async function getAllSupervisors(req, res) {
+    try {
+        const sequelizePDV = await sequelizeInit('PDV');
+        const SupervisorModel = initSupervisorModel(sequelizePDV);
+        const supervisores = await SupervisorModel.findAll({
+            attributes: [
+                [sequelizePDV.fn('MAX', sequelizePDV.col('CodSupervisor')), 'CodSupervisor'],
+                'NomSupervisor'
+            ],
+            group: ['NomSupervisor'],
+            raw: true
+        });
+        return res.json(supervisores);
+    } catch (err) {
+        return res.status(500).json({ error: 'Error al obtener los supervisores', details: err.message });
+    }
+}
+
+module.exports = {
+    getAllSupervisors
+};
