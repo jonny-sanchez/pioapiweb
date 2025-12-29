@@ -1,6 +1,7 @@
 const initEmpleadoModel = require('../../models/nomina/empleado.model');
 const { sequelizeInit } = require('../../configuration/db');
 
+//Obtener todos los empleados
 async function getAllEmpleados(req, res) {
     try {
         const sequelizeNomina = await sequelizeInit('NOMINA');

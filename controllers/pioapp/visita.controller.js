@@ -9,11 +9,13 @@ const EstadoVisitaEmergenciaModel = require('../../models/pioapp/tables/estado_v
 const Vw_detalle_visita_emergencia = require("../../models/pioapp/views/vw_detalle_visita_emergencia.view");
 require('dotenv').config();
 
+//Relación entre tablas de visitas, usuarios, estados de visitas y visitas de emergencia
 VisitaModel.belongsTo(UserModel, { foreignKey: '"userCreatedAt"' })
 UserModel.hasMany(VisitaModel, { foreignKey: 'id_users' });
 EstadoVisitaEmergenciaModel.hasMany(VisitaEmergenciaModel, { foreignKey: 'id_estado' });
 VisitaEmergenciaModel.belongsTo(EstadoVisitaEmergenciaModel, { foreignKey: 'id_estado' })
 
+//Obtener todas las visitas
 async function getAllVisitas(req, res) {
     try {
         const visitas = await VisitaModel.findAll({ raw: true });
@@ -24,6 +26,7 @@ async function getAllVisitas(req, res) {
     }
 }
 
+//Obtener todas las visitas de un supervisor
 async function getVisitaBySupervisor(req, res){
     const { id_users } = req.params;
     const { startDate, endDate } = req.query;
@@ -60,6 +63,7 @@ async function getVisitaBySupervisor(req, res){
     }
 }
 
+//Obtener la ultima visita realizada por un supervisor
 async function getUltimaVisitaBySupervisor(req, res) {
     const { id_users } = req.params;
 
@@ -94,6 +98,7 @@ async function getUltimaVisitaBySupervisor(req, res) {
     }
 }
 
+//Obtener todos los tipos de visita disponibles
 async function getTiposVisita(req, res) {
     try {
         const tipos = await TipoVisitaModel.findAll({ raw: true });
@@ -106,6 +111,7 @@ async function getTiposVisita(req, res) {
     }
 }
 
+//Crear una visita de emergencia (tarea)
 async function createVisitaEmergencia(req, res) {
     try {
         const {
@@ -125,6 +131,7 @@ async function createVisitaEmergencia(req, res) {
             id_caso
         } = req.body;
         
+        //Buscar si el usuario ya tiene una visita de emergencia en curso, si tiene no puede crearse una nueva
         const visitaActual = await VisitaEmergenciaModel.findOne({
             where: {
                 user_asignado: req.body.user_asignado,
@@ -157,6 +164,8 @@ async function createVisitaEmergencia(req, res) {
                 nombre_user_asignado,
                 id_caso
             });
+
+            //Envío de notificaciones al supervisor asignado
             const notification = await fetch(`https://services.sistemaspinulito.com/pioapi/notificaciones/send`, {
                 method: 'POST',
                 headers: {
@@ -188,6 +197,7 @@ async function createVisitaEmergencia(req, res) {
     }
 }
 
+//Obtener todas las visitas de emergencia
 async function getVisitasEmergencia(req, res) {
     try {
         const sequelizePioApp = await sequelizeInit('PIOAPP');
@@ -203,6 +213,7 @@ async function getVisitasEmergencia(req, res) {
     }
 }
 
+//Obtener detalle de una visita de emergencia
 async function getVisitasEmergenciaById(req, res) {
     const { id_visita } = req.params;
     try {
@@ -227,6 +238,7 @@ async function getVisitasEmergenciaById(req, res) {
     }
 }
 
+//Obtener visita de emergencia creada según un caso
 async function getVisitasEmergenciaByCaso(req, res) {
     const { id_caso } = req.params;
 

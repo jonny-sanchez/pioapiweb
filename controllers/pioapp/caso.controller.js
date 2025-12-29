@@ -7,6 +7,7 @@ const CasoModel = require('../../models/pioapp/tables/caso.model');
 const Vw_detalle_caso = require('../../models/pioapp/views/vw_detalle_caso.view');
 const sequelize = require('../../configuration/db');
 
+//Obtener todos los tipos de solicitudes para los casos
 async function getAllTiposSolicitudes(req, res) {
     try {
         const tipos_solicitud = await TipoSolicitudModel.findAll({ raw: true });
@@ -20,6 +21,7 @@ async function getAllTiposSolicitudes(req, res) {
     }
 }
 
+//Obtener todos los impactos que tienen los casos
 async function getAllImpactos(req, res) {
     try {
         const impactos = await ImpactoModel.findAll({ raw: true });
@@ -33,6 +35,7 @@ async function getAllImpactos(req, res) {
     }
 }
 
+//Obtener todas las urgencias que pueden tener los casos
 async function getAllUrgencias(req, res) {
     try {
         const urgencias = await UrgenciaModel.findAll({ raw: true });
@@ -46,6 +49,7 @@ async function getAllUrgencias(req, res) {
     }
 }
 
+//Obtener todas las categorías en las que se puede colocar un caso
 async function getAllCategorias(req, res) {
     try {
         const categorias = await CategoriaModel.findAll({ raw: true });
@@ -59,6 +63,7 @@ async function getAllCategorias(req, res) {
     }
 }
 
+//Obtener todas las subcategorias según la categoría especificada en el parámetro
 async function getSubcategoriaByCategoria(req, res) {
     const { id_categoria } = req.params;
 
@@ -79,6 +84,7 @@ async function getSubcategoriaByCategoria(req, res) {
     }
 }
 
+//Crear el caso para iniciar una tarea
 async function createCaso(req, res) {
     const {
             id_tienda,
@@ -95,6 +101,7 @@ async function createCaso(req, res) {
         } = req.body;
 
     try {        
+        //Validar que no existe un caso ya creado con los mismos parámetros para evitar duplicidad
         const casoDuplicado = await CasoModel.findOne({
             where: {
                 id_tienda: req.body.id_tienda,
@@ -139,6 +146,7 @@ async function createCaso(req, res) {
     }
 }
 
+//Obtener todos los casos según la división de las tiendas
 async function getCasosByDivision(req, res) {
     const { division } = req.params;
     try {
@@ -160,6 +168,7 @@ async function getCasosByDivision(req, res) {
     }
 }
 
+//Obtener un caso según su id (uuid)
 async function getCasoById(req, res) {
     const { id_caso } = req.params;
 
@@ -174,6 +183,7 @@ async function getCasoById(req, res) {
     }
 }
 
+//Actualización de datos para un caso según su id (uuid)
 async function updateCaso(req, res) {
     const { id_caso } = req.params;
 

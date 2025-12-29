@@ -1,6 +1,7 @@
 const initSupervisorModel = require('../../models/pdv/views/vwDwhSupervisores.view');
 const { sequelizeInit } = require('../../configuration/db');
 
+//Obtener codigo de supervisor y nombre de todos los supervisores
 async function getAllSupervisors(req, res) {
     try {
         const sequelizePDV = await sequelizeInit('PDV');

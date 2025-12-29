@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const SECRET = process.env.DB_SECRET_KEY;
 
+//Servicio para inicio de sesión y autenticación por token
 async function login(req, res) {
     const { cod_empleado, password } = req.body;
 

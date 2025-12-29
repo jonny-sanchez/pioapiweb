@@ -5,15 +5,18 @@ const { sequelize } = require('../../configuration/db');
 const Vw_visita_pioapp = initVw_visita_pioapp(sequelize);
 const vw_supervisores = InitVw_users(sequelize);
 
+//Relación de uno a muchos entre vista de supervisores y vista de visitas
 vw_supervisores.hasMany(Vw_visita_pioapp, {
     foreignKey: 'codigo_usuario_visita',
     sourceKey: 'codsupervisor'
 });
+//Relación de uno a muchos entre vista de supervisores y vista de visitas
 Vw_visita_pioapp.belongsTo(vw_supervisores, {
     foreignKey: 'codigo_usuario_visita',
     targetKey: 'codsupervisor'
 });
 
+//Obtener todos los usuarios que tienen acceso a PioApp
 async function getAllUsers(req, res) {
     try {
         const users = await UserModel.findAll({ raw: true });
@@ -23,6 +26,7 @@ async function getAllUsers(req, res) {
     }
 }
 
+//Obtener todos los supervisores
 async function getAllSupervisors(req, res) {
     try {
         const users = await vw_supervisores.findAll({

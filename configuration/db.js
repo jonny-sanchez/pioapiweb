@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const { configDatabase, DEFAULT_CONNECTION } = require("./configDatabase.js");
 
+//Definicion de base de datos por defecto
 const connections = {};
 const defaultConfig = configDatabase[DEFAULT_CONNECTION];
 const sequelize = new Sequelize(
@@ -10,6 +11,7 @@ const sequelize = new Sequelize(
     defaultConfig.options
 );
 
+//Inicialización de base de datos especificada en el parámetro
 async function sequelizeInit(instancia = DEFAULT_CONNECTION) {
     if (connections[instancia]) {
         return connections[instancia];
@@ -27,6 +29,7 @@ async function sequelizeInit(instancia = DEFAULT_CONNECTION) {
     return newSequelize;
 }
 
+//Conexión a las bases de datos
 const connectionDb = async () => {
     try {
         for (const [key, value] of Object.entries(configDatabase)) {

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const SECRET = process.env.DB_SECRET_KEY
 
+//middleware para autenticación por token
 function authMiddleware(req, res, next) {
     const authHeader = req.headers['authorization'];
 

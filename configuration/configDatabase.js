@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+//Configuracion de las bases de datos
 const configDatabase = {
     PIOAPP: {
       database: process.env.DB_DATABASE,

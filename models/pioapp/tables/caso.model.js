@@ -1,5 +1,5 @@
 
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, Sequelize } = require('sequelize');
 const { sequelize } = require('../../../configuration/db');
 
 class CasoModel extends Model {}
@@ -19,7 +19,7 @@ CasoModel.init({
     mensaje: { type: DataTypes.STRING(255), allowNull: false },
     userCreatedAt: { type: DataTypes.BIGINT, allowNull: true },
     userUpdatedAt: { type: DataTypes.BIGINT, allowNull: true },
-    correlativo: { type: DataTypes.BIGINT, allowNull: false}
+    correlativo: { type: DataTypes.BIGINT, allowNull: false, defaultValue: Sequelize.literal('DEFAULT'), field: 'correlativo'}
 }, {
     sequelize,
     tableName: 'tbl_caso',
