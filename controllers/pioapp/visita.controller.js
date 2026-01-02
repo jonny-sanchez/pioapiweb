@@ -11,7 +11,7 @@ require('dotenv').config();
 
 //Relación entre tablas de visitas, usuarios, estados de visitas y visitas de emergencia
 VisitaModel.belongsTo(UserModel, { foreignKey: '"userCreatedAt"' })
-UserModel.hasMany(VisitaModel, { foreignKey: 'id_users' });
+//UserModel.hasMany(VisitaModel, { foreignKey: 'id_users' });
 EstadoVisitaEmergenciaModel.hasMany(VisitaEmergenciaModel, { foreignKey: 'id_estado' });
 VisitaEmergenciaModel.belongsTo(EstadoVisitaEmergenciaModel, { foreignKey: 'id_estado' })
 
@@ -258,6 +258,24 @@ async function getVisitasEmergenciaByCaso(req, res) {
     }
 }
 
+async function getVisitaByVisitaEmergencia(req, res) {
+    const { id_ve } = req.params;
+
+    try {
+        const visita = await VisitaModel.findOne({
+            where: {
+                id_visita_emergencia: id_ve
+            }
+        });
+        return res.json(visita); 
+    } catch (err) {
+        return res.status(500).json({
+            error: "Error al obtener visita",
+            details: err.message
+        })
+    }
+}
+
 module.exports = {
     getAllVisitas,
     getVisitaBySupervisor,
@@ -266,5 +284,6 @@ module.exports = {
     createVisitaEmergencia,
     getVisitasEmergencia,
     getVisitasEmergenciaById,
-    getVisitasEmergenciaByCaso
+    getVisitasEmergenciaByCaso,
+    getVisitaByVisitaEmergencia
 };

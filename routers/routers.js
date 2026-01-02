@@ -18,6 +18,7 @@ router.post('/visitas/createVisitaEmergencia', auth, visita.createVisitaEmergenc
 router.get('/visitas/getVisitasEmergencia', auth, visita.getVisitasEmergencia);
 router.get('/visitas/getVisitasEmergenciaById/:id_visita', auth, visita.getVisitasEmergenciaById);
 router.get('/visitas/getVisitasEmergenciaByCaso/:id_caso', auth, visita.getVisitasEmergenciaByCaso);
+router.get('/visitas/getVisitaByVisitaEmergencia/:id_ve', auth, visita.getVisitaByVisitaEmergencia);
 
 //USERS
 router.get('/users/getAllUsers', auth, users.getAllUsers);
