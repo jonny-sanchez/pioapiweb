@@ -294,7 +294,8 @@ async function getVisitasReabiertas(req, res) {
             where: {
                 id_visita: id_v,
                 id_caso: id_c
-            }
+            },
+            order: [["fecha_reapertura", "DESC"]]
         });
 
         return res.json(visitas); 
