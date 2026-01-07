@@ -307,7 +307,7 @@ async function cierreReaperturaCaso(req, res) {
                 },
                 body: JSON.stringify({
                   user: Number(visitaEmergencia.user_asignado.substring(2)),
-                  body: visitaEmergencia.comentario,
+                  body: casoVisita.motivo_reapertura,
                   title: `Visita reabierta: ${visitaEmergencia.tienda_nombre}`,
                   id_asunto_notificacion: 2,
                   data_payload: { idVisitaEmergencia: visitaEmergencia.id_visita }

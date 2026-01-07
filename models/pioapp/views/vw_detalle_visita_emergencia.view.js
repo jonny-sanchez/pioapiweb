@@ -14,7 +14,8 @@ function initVw_detalle_visita_emergencia(sequelizeInstance) {
         last_gps_latitude: { type: DataTypes.TEXT, allowNull: true },
         new_gps_longitude: { type: DataTypes.TEXT, allowNull: false },
         new_gps_latitude: { type: DataTypes.TEXT, allowNull: false },
-        division: { type: DataTypes.INTEGER, allowNull: true }
+        division: { type: DataTypes.INTEGER, allowNull: true },
+        id_caso: { type: DataTypes.UUID, allowNull: false, primaryKey: true }
     }, {
         sequelize: sequelizeInstance,
         tableName: 'vw_detalle_visita_emergencia',

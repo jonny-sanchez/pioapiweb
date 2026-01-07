@@ -7,6 +7,7 @@ const { Op } = require('sequelize');
 const VisitaEmergenciaModel = require('../../models/pioapp/tables/visita_emergencia.model');
 const EstadoVisitaEmergenciaModel = require('../../models/pioapp/tables/estado_visita_emergencia.model');
 const Vw_detalle_visita_emergencia = require("../../models/pioapp/views/vw_detalle_visita_emergencia.view");
+const CasoVisitaReabiertaModel = require('../../models/pioapp/tables/caso_visita_reabierta.model');
 require('dotenv').config();
 
 //Relación entre tablas de visitas, usuarios, estados de visitas y visitas de emergencia
@@ -276,10 +277,30 @@ async function getVisitaByVisitaEmergencia(req, res) {
             },
             order: [['createdAt', 'DESC']]
         });
-        return res.json(visita); 
+        return res.json(visita);
     } catch (err) {
         return res.status(500).json({
             error: "Error al obtener visita",
+            details: err.message
+        })
+    }
+}
+
+async function getVisitasReabiertas(req, res) {
+    const { id_v, id_c } = req.params;
+
+    try {
+        const visitas = await CasoVisitaReabiertaModel.findAll({
+            where: {
+                id_visita: id_v,
+                id_caso: id_c
+            }
+        });
+
+        return res.json(visitas); 
+    } catch (err) {
+        return res.status(500).json({
+            error: "Error al obtener visitas reabiertas",
             details: err.message
         })
     }
@@ -294,5 +315,6 @@ module.exports = {
     getVisitasEmergencia,
     getVisitasEmergenciaById,
     getVisitasEmergenciaByCaso,
-    getVisitaByVisitaEmergencia
+    getVisitaByVisitaEmergencia,
+    getVisitasReabiertas
 };
